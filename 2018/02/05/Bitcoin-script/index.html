@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Bitcoin script | Jiyi&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="cryptocurrency, blockchain, cryptography, privacy" />
+  
+  <meta name="description" content="比特幣學習地圖比特幣學習目標 理解比特幣是為了解決什麼問題 理解比特幣的分散式帳本技術 (DLT) 理解中本聰對比特幣的期待 理解比特幣的共識算法 (POW) 理解比特幣的UTXO 理解比特幣的交易類型 理解比特幣的 raw 交易 理解比特幣的側鏈 說明比特幣目前遇到的瓶頸及困難 理解閃電網絡及隔離驗證   前情提要 DLT, Distributed Ledger Technology UTXO,">
+<meta name="keywords" content="bitcoin,cryptocurrency">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bitcoin script">
+<meta property="og:url" content="https://apjiyi.github.io/2018/02/05/Bitcoin-script/index.html">
+<meta property="og:site_name" content="Jiyi&#39;s Blog">
+<meta property="og:description" content="比特幣學習地圖比特幣學習目標 理解比特幣是為了解決什麼問題 理解比特幣的分散式帳本技術 (DLT) 理解中本聰對比特幣的期待 理解比特幣的共識算法 (POW) 理解比特幣的UTXO 理解比特幣的交易類型 理解比特幣的 raw 交易 理解比特幣的側鏈 說明比特幣目前遇到的瓶頸及困難 理解閃電網絡及隔離驗證   前情提要 DLT, Distributed Ledger Technology UTXO,">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="http://orm-chimera-prod.s3.amazonaws.com/1234000001802/images/msbt_0401.png">
+<meta property="og:image" content="http://bitcoinbook-builds.mkvd.net/translations/zh_TW/images/msbt_0406.png">
+<meta property="og:image" content="https://en.bitcoin.it/w/images/en/9/9b/PubKeyToAddr.png">
+<meta property="og:image" content="http://svgshare.com/i/_d.svg">
+<meta property="og:updated_time" content="2018-02-06T03:22:26.547Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bitcoin script">
+<meta name="twitter:description" content="比特幣學習地圖比特幣學習目標 理解比特幣是為了解決什麼問題 理解比特幣的分散式帳本技術 (DLT) 理解中本聰對比特幣的期待 理解比特幣的共識算法 (POW) 理解比特幣的UTXO 理解比特幣的交易類型 理解比特幣的 raw 交易 理解比特幣的側鏈 說明比特幣目前遇到的瓶頸及困難 理解閃電網絡及隔離驗證   前情提要 DLT, Distributed Ledger Technology UTXO,">
+<meta name="twitter:image" content="http://orm-chimera-prod.s3.amazonaws.com/1234000001802/images/msbt_0401.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">加密貨幣原理與技術</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        加密貨幣原理與技術
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Cryptocurrency, Blockchain, Cryptography and Privacy
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//minhow.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/wongminho">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Bitcoin-script" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Bitcoin script
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/bitcoin/">bitcoin</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="比特幣學習地圖"><a href="#比特幣學習地圖" class="headerlink" title="比特幣學習地圖"></a>比特幣學習地圖</h2><h3 id="比特幣學習目標"><a href="#比特幣學習目標" class="headerlink" title="比特幣學習目標"></a>比特幣學習目標</h3><ol>
+<li>理解比特幣是為了解決什麼問題</li>
+<li>理解比特幣的分散式帳本技術 (DLT)</li>
+<li>理解中本聰對比特幣的期待</li>
+<li>理解比特幣的共識算法 (POW)</li>
+<li>理解比特幣的UTXO</li>
+<li>理解比特幣的交易類型</li>
+<li>理解比特幣的 raw 交易</li>
+<li>理解比特幣的側鏈</li>
+<li>說明比特幣目前遇到的瓶頸及困難</li>
+<li>理解閃電網絡及隔離驗證</li>
+</ol>
+<ul>
+<li>前情提要<ul>
+<li>DLT, Distributed Ledger Technology</li>
+<li>UTXO, Unspent Transaction Output</li>
+<li>Consensus Proof-of-Work</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Bitcoin-Script"><a href="#Bitcoin-Script" class="headerlink" title="Bitcoin Script"></a>Bitcoin Script</h2><p><strong>轉移權說明:</strong></p>
+<p>在比特幣的世界裡，所謂交易是輸入腳本 (scriptSig) 與配合的UTXO轉移BTC至輸出腳本 (scriptPubKey)。 </p>
+<p>日後，如果要轉移這筆輸出腳本的錢，必須要把該輸出腳本弄成這次交易的輸入。</p>
+<p>輸入 (vin)：交易ID與第幾筆 out (UTXO)[1]、輸入腳本 (scriptSig)<br>輸出 (vout)：value、scriptPubKey</p>
+<p>[1] 交易ID與第幾筆out為一個UTXO</p>
+<hr>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul>
+<li><a href="http://bitcoin-script-debugger.visvirial.com/" target="_blank" rel="noopener">Bitcoin Script Online Debugger</a></li>
+<li><a href="https://blockchain.info" target="_blank" rel="noopener">Blockchain.info</a></li>
+<li><a href="https://github.com/vbuterin/pybitcointools" target="_blank" rel="noopener">pybitcointools (python)</a></li>
+<li><a href="https://live.blockcypher.com/btc/decodetx/" target="_blank" rel="noopener">Decode A Transaction by live.blockcypher.com</a></li>
+<li><a href="https://blockchain.info/decode-tx" target="_blank" rel="noopener">Decode Raw Transaction by blockchain.info</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 常用 opcode</span><br><span class="line">0xae OP_CHECKMULTISIG</span><br><span class="line">0x76 OP_DUP</span><br><span class="line">0xa9 OP_HASH160</span><br><span class="line">0x88 OP_EQUALVERIFY</span><br><span class="line">0xac OP_CHECKSIG</span><br><span class="line">0x87 OP_EQUAL </span><br><span class="line">0x6a OP_RETURN # Marks transaction as invalid</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="交易型態"><a href="#交易型態" class="headerlink" title="交易型態"></a>交易型態</h2><h3 id="一、P2PK-Pay-to-Public-Key-or-pubkey"><a href="#一、P2PK-Pay-to-Public-Key-or-pubkey" class="headerlink" title="一、P2PK (Pay to Public Key) or pubkey"></a>一、P2PK (Pay to Public Key) or pubkey</h3><p>地址形式：1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br>e.g. <code>1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3</code></p>
+<p>scriptPubKey:<br>&lt;公鑰&gt; OP_CHECKSIG</p>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">04ae1a62fe09c5f51b13905f07f06b99a2f7159b2225f374cd378d71302fa28414e7aab37397f554a7df5f142c21c1b7303b8a0626f1baded5c72a704f7e6cd84c OP_CHECKSIG</span><br></pre></td></tr></table></figure></p>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">434104ae1a62fe09c5f51b13905f07f06b99a2f7159b2225f374cd378d71302fa28414e7aab37397f554a7df5f142c21c1b7303b8a0626f1baded5c72a704f7e6cd84cac</span><br></pre></td></tr></table></figure></p>
+<p>scriptSig:<br>&lt;簽名&gt;</p>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">30440220576497b7e6f9b553c0aba0d8929432550e092db9c130aae37b84b545e7f4a36c022066cb982ed80608372c139d7bb9af335423d5280350fe3e06bd510e695480914f01</span><br></pre></td></tr></table></figure></p>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4730440220576497b7e6f9b553c0aba0d8929432550e092db9c130aae37b84b545e7f4a36c022066cb982ed80608372c139d7bb9af335423d5280350fe3e06bd510e695480914f01</span><br></pre></td></tr></table></figure></p>
+<p>題：<a href="https://blockchain.info/tx-index/15029" target="_blank" rel="noopener">https://blockchain.info/tx-index/15029</a><br>解：<a href="https://blockchain.info/tx-index/180223" target="_blank" rel="noopener">https://blockchain.info/tx-index/180223</a></p>
+<hr>
+<p><img src="http://orm-chimera-prod.s3.amazonaws.com/1234000001802/images/msbt_0401.png" alt="key generation"></p>
+<p><img src="http://bitcoinbook-builds.mkvd.net/translations/zh_TW/images/msbt_0406.png" alt="b58check_encode"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://en.bitcoin.it/w/images/en/9/9b/PubKeyToAddr.png" alt="b58check_encode" width="85%" height="85%"></h2><h3 id="二、P2PKH-Pay-to-Public-Key-Hash-or-pubkeyhash"><a href="#二、P2PKH-Pay-to-Public-Key-Hash-or-pubkeyhash" class="headerlink" title="二、P2PKH (Pay to Public Key Hash) or pubkeyhash"></a>二、P2PKH (Pay to Public Key Hash) or pubkeyhash</h3><p>地址形式：1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br>e.g. <code>15kDhRAcpgsugmh6mQsTcCHdvbsuYncEEV</code></p>
+<p>scriptPubKey:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OP_DUP OP_HASH160 &lt;地址 hex&gt; OP_EQUALVERIFY OP_CHECKSIG</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># pybitcointools</span><br><span class="line">b58check_to_hex(&apos;15kDhRAcpgsugmh6mQsTcCHdvbsuYncEEV&apos;)</span><br><span class="line"># &apos;340cfcffe029e6935f4e4e5839a2ff5f29c7a571&apos;</span><br><span class="line"></span><br><span class="line">hash160(&apos;04fc60372d27b067ca306ba812ced9c8cd69296b83a40b9b57c593258c1b9e0ee1c0c621ca558b878395f9645a4b67a96e51843e9c060d43a3833fdd29a91f4f31&apos;.decode(&apos;hex&apos;))</span><br><span class="line"># &apos;340cfcffe029e6935f4e4e5839a2ff5f29c7a571&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># python3</span><br><span class="line">hash160(bytes.fromhex(&apos;04fc60372d27b067ca306ba812ced9c8cd69296b83a40b9b57c593258c1b9e0ee1c0c621ca558b878395f9645a4b67a96e51843e9c060d43a3833fdd29a91f4f31&apos;))</span><br><span class="line">&apos;340cfcffe029e6935f4e4e5839a2ff5f29c7a571&apos;</span><br><span class="line"></span><br><span class="line"># or</span><br><span class="line">import codecs</span><br><span class="line">hash160(codecs.decode(&apos;04fc60372d27b067ca306ba812ced9c8cd69296b83a40b9b57c593258c1b9e0ee1c0c621ca558b878395f9645a4b67a96e51843e9c060d43a3833fdd29a91f4f31&apos;,&apos;hex&apos;))</span><br><span class="line"># &apos;340cfcffe029e6935f4e4e5839a2ff5f29c7a571&apos;</span><br></pre></td></tr></table></figure>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OP_DUP OP_HASH160 340cfcffe029e6935f4e4e5839a2ff5f29c7a571 OP_EQUALVERIFY OP_CHECKSIG</span><br></pre></td></tr></table></figure></p>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1976a914340cfcffe029e6935f4e4e5839a2ff5f29c7a57188ac</span><br></pre></td></tr></table></figure></p>
+<p>scriptSig:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;簽名&gt; &lt;公鑰&gt;</span><br></pre></td></tr></table></figure></p>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">30440220694ff325724a4f4b0f3f0c36bf8e94cac58ad7c9b4d5bd8c7286c0da623f0b2c02206ae94680a8f31f30cd846da258e919c94afe2dd629b4f4ce11bbe8165ff99a5f01 </span><br><span class="line">04fc60372d27b067ca306ba812ced9c8cd69296b83a40b9b57c593258c1b9e0ee1c0c621ca558b878395f9645a4b67a96e51843e9c060d43a3833fdd29a91f4f31</span><br></pre></td></tr></table></figure></p>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">8a4730440220694ff325724a4f4b0f3f0c36bf8e94cac58ad7c9b4d5bd8c7286c0da623f0b2c02206ae94680a8f31f30cd846da258e919c94afe2dd629b4f4ce11bbe8165ff99a5f014104fc60372d27b067ca306ba812ced9c8cd69296b83a40b9b57c593258c1b9e0ee1c0c621ca558b878395f9645a4b67a96e51843e9c060d43a3833fdd29a91f4f31</span><br></pre></td></tr></table></figure></p>
+<p>題：<a href="https://blockchain.info/tx-index/180223" target="_blank" rel="noopener">https://blockchain.info/tx-index/180223</a><br>解：<a href="https://blockchain.info/tx-index/180233" target="_blank" rel="noopener">https://blockchain.info/tx-index/180233</a></p>
+<h3 id="三、-P2SH-Pay-to-Script-Hash-or-scripthash"><a href="#三、-P2SH-Pay-to-Script-Hash-or-scripthash" class="headerlink" title="三、 P2SH (Pay to Script Hash) or scripthash"></a>三、 P2SH (Pay to Script Hash) or scripthash</h3><p>地址形式：3xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br>e.g. <code>3HfFJ5cGCG2m2RbadnsCHit9UzhPR5J2GF</code></p>
+<p>scriptPubKey:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">OP_HASH160 &lt;地址 hex&gt; OP_EQUAL</span><br><span class="line"></span><br><span class="line"># pybitcointools</span><br><span class="line">b58check_to_hex(&apos;3HfFJ5cGCG2m2RbadnsCHit9UzhPR5J2GF&apos;)</span><br><span class="line"># &apos;af2c57a99f55747423e4af65bbae772b613d34a7&apos;</span><br><span class="line"></span><br><span class="line">hash160(&apos;52210354d112cce2b32134dad744e8a6c82a346291b6d2f4fdaef742264ace4c603e0d2103745a7c2f39946a14ab8a6d61aea55c1b64bc9c9d5b83d47b794782cc90609fad52ae&apos;.decode(&apos;hex&apos;))</span><br><span class="line"># &apos;af2c57a99f55747423e4af65bbae772b613d34a7&apos;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># python3</span><br><span class="line">hash160(bytes.fromhex(&apos;52210354d112cce2b32134dad744e8a6c82a346291b6d2f4fdaef742264ace4c603e0d2103745a7c2f39946a14ab8a6d61aea55c1b64bc9c9d5b83d47b794782cc90609fad52ae&apos;))</span><br><span class="line">&apos;af2c57a99f55747423e4af65bbae772b613d34a7&apos;</span><br><span class="line"></span><br><span class="line"># or</span><br><span class="line">import codecs</span><br><span class="line">hash160(codecs.decode(&apos;52210354d112cce2b32134dad744e8a6c82a346291b6d2f4fdaef742264ace4c603e0d2103745a7c2f39946a14ab8a6d61aea55c1b64bc9c9d5b83d47b794782cc90609fad52ae&apos;,&apos;hex&apos;))</span><br><span class="line"># &apos;af2c57a99f55747423e4af65bbae772b613d34a7&apos;</span><br></pre></td></tr></table></figure>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OP_HASH160 af2c57a99f55747423e4af65bbae772b613d34a7 OP_EQUAL</span><br></pre></td></tr></table></figure></p>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">17a914af2c57a99f55747423e4af65bbae772b613d34a787</span><br></pre></td></tr></table></figure></p>
+<p>scriptSig:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OP_FALSE &lt;簽名0&gt; &lt;簽名1&gt; … &lt;簽名n&gt; &lt;(multisig) redeem script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>e.g. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OP_FALSE 3045022100a7f1b5457dc955a5d4b4529473837828e3d9477e883bc3794d653f37578a58120220337a5c88b7a385e989f7c9aa7351d12f66f8ef68f3d26aa951034ac459b8cc3d01</span><br><span class="line"></span><br><span class="line">304402204894f429c740f5cc16554575527c8cf01823abf60bd88bbb7e6938e15c28ffde022059f8f7be0440ab158b6568f7af1f97835d359fed20e160b2114089f1953851ce01</span><br><span class="line"></span><br><span class="line">52210354d112cce2b32134dad744e8a6c82a346291b6d2f4fdaef742264ace4c603e0d2103745a7c2f39946a14ab8a6d61aea55c1b64bc9c9d5b83d47b794782cc90609fad52ae</span><br></pre></td></tr></table></figure>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00483045022100a7f1b5457dc955a5d4b4529473837828e3d9477e883bc3794d653f37578a58120220337a5c88b7a385e989f7c9aa7351d12f66f8ef68f3d26aa951034ac459b8cc3d0147304402204894f429c740f5cc16554575527c8cf01823abf60bd88bbb7e6938e15c28ffde022059f8f7be0440ab158b6568f7af1f97835d359fed20e160b2114089f1953851ce014752210354d112cce2b32134dad744e8a6c82a346291b6d2f4fdaef742264ace4c603e0d2103745a7c2f39946a14ab8a6d61aea55c1b64bc9c9d5b83d47b794782cc90609fad52ae</span><br></pre></td></tr></table></figure></p>
+<p>題：<a href="https://blockchain.info/tx-index/263681776/6" target="_blank" rel="noopener">https://blockchain.info/tx-index/263681776/6</a><br>解：<a href="https://blockchain.info/tx-index/267355976" target="_blank" rel="noopener">https://blockchain.info/tx-index/267355976</a></p>
+<p><img src="http://svgshare.com/i/_d.svg" alt=""></p>
+<h3 id="四、MultiSig"><a href="#四、MultiSig" class="headerlink" title="四、MultiSig"></a>四、MultiSig</h3><p>最早的多重簽名，目前已不推薦使用<br>地址形式：1xxxxxxxxxxx, 1xxxxxxxxxxx, 1xxxxxxxxxxx</p>
+<p>scriptPubKey<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">M pubkey_1 pubkey_2 ... pubkey_n N OP_CHECKMULTISIG</span><br></pre></td></tr></table></figure></p>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OP_2 037f0d8ccb11190cc5c13c703b2a1baffdd35eb4eb46541381e8baf4dad2603ea4</span><br><span class="line">027a36e409b7b9ccb4bc7b952de453e0295c36243636adc55e92189ef076a3f357</span><br><span class="line">03ace2c0bbc88c038e24b6d684c7832886dfd903d50bd2db75136ed7189ea472f6 OP_3 OP_CHECKMULTISIG</span><br></pre></td></tr></table></figure></p>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">695221037f0d8ccb11190cc5c13c703b2a1baffdd35eb4eb46541381e8baf4dad2603ea421027a36e409b7b9ccb4bc7b952de453e0295c36243636adc55e92189ef076a3f3572103ace2c0bbc88c038e24b6d684c7832886dfd903d50bd2db75136ed7189ea472f653ae</span><br></pre></td></tr></table></figure></p>
+<p>scriptSig<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OP_FALSE &lt;簽名1&gt; &lt;簽名2&gt; ... &lt;簽名N&gt;</span><br></pre></td></tr></table></figure></p>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OP_FALSE 304502210085f76672bdc77135651eb31bba3933105c66357aa5ac5a7bf2c282ddc8270794022059925d692557b19a2fd3bec41318ade228bd5fca70ee7254722af8f83b740f0282</span><br><span class="line">304402202f89f2c8454ec40509a73133a9fd5dac4e1e6705ff45f2a4632b8af5b2ba511e022072228f654e79aec334cb6546f56044d3f2daa571c84c1514171ea4e9ec8ae95182</span><br></pre></td></tr></table></figure></p>
+<p>raw:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0048304502210085f76672bdc77135651eb31bba3933105c66357aa5ac5a7bf2c282ddc8270794022059925d692557b19a2fd3bec41318ade228bd5fca70ee7254722af8f83b740f028247304402202f89f2c8454ec40509a73133a9fd5dac4e1e6705ff45f2a4632b8af5b2ba511e022072228f654e79aec334cb6546f56044d3f2daa571c84c1514171ea4e9ec8ae95182</span><br></pre></td></tr></table></figure></p>
+<p>題：<a href="https://blockchain.info/tx/2d96ee775ddc009bbb0eb7cab9775c07f6dc736121c1ce15a2f86ec435c38f3a" target="_blank" rel="noopener">https://blockchain.info/tx/2d96ee775ddc009bbb0eb7cab9775c07f6dc736121c1ce15a2f86ec435c38f3a</a><br>解：<br><a href="https://blockchain.info/tx-index/97529992" target="_blank" rel="noopener">https://blockchain.info/tx-index/97529992</a></p>
+<h3 id="五、Null-Data"><a href="#五、Null-Data" class="headerlink" title="五、Null-Data"></a>五、Null-Data</h3><p>Marks transaction as invalid</p>
+<p>scriptPubKey<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OP_RETURN xxxxxxx</span><br></pre></td></tr></table></figure></p>
+<p>e.g.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OP_RETURN 6a0d5e7cc043a18d6bc4a0c429f8a88c990f91b254fad766ae54dce0355979c1</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">226a206a0d5e7cc043a18d6bc4a0c429f8a88c990f91b254fad766ae54dce0355979c1</span><br></pre></td></tr></table></figure>
+<p>題：<br><a href="https://blockchain.info/tx/b2072979c8e0f284fe86d8beafe7d9368725e230ea45844116b438272c482a9a" target="_blank" rel="noopener">https://blockchain.info/tx/b2072979c8e0f284fe86d8beafe7d9368725e230ea45844116b438272c482a9a</a></p>
+<p>解：<br>無。因已標示<code>交易無效</code>，所以無法轉移BTC</p>
+<h3 id="六、Non-Standard"><a href="#六、Non-Standard" class="headerlink" title="六、Non-Standard"></a>六、Non-Standard</h3><p>無法解析的非標準腳本</p>
+<p>e.g.<br>題：<a href="https://blockchain.info/tx-index/55968320/0" target="_blank" rel="noopener">https://blockchain.info/tx-index/55968320/0</a><br>解：<a href="https://blockchain.info/tx-index/55969885" target="_blank" rel="noopener">https://blockchain.info/tx-index/55969885</a><br>題：<a href="https://blockchain.info/tx-index/55969885" target="_blank" rel="noopener">https://blockchain.info/tx-index/55969885</a><br>解：<a href="https://blockchain.info/tx-index/56004092" target="_blank" rel="noopener">https://blockchain.info/tx-index/56004092</a><br>題：<a href="https://blockchain.info/tx-index/12864193/0" target="_blank" rel="noopener">https://blockchain.info/tx-index/12864193/0</a><br>解：<a href="https://blockchain.info/tx-index/12874719" target="_blank" rel="noopener">https://blockchain.info/tx-index/12874719</a></p>
+<hr>
+<h2 id="驗證區塊"><a href="#驗證區塊" class="headerlink" title="驗證區塊"></a>驗證區塊</h2><p><a href="https://blockchain.info/block-index/962749/00000000000000000be983a81043933c38008010b849fd6a35d5dd2d57f929bd?format=json" target="_blank" rel="noopener">https://blockchain.info/block-index/962749/00000000000000000be983a81043933c38008010b849fd6a35d5dd2d57f929bd?format=json</a></p>
+<p>block_hash = sha256(sha256(block_version+prev_block+merkle_root+ntime+nbits+nonce))</p>
+<p>For block 00000000000000000be983a81043933c38008010b849fd6a35d5dd2d57f929bd:<br>version = 3, encoded as ‘03000000’ (4-byte little-endian);<br>previous_hash = ‘b6ae559e0678bbb2c926c78838c027ce925b0834e35d1f050000000000000000’;<br>merkle_root = ‘dba85df5822bbf6b3fb409d410d54848510b5b0d49563ab2ee87abecd318dbf4’;<br>ntime = 1442663985, encoded as ‘314efd55’ (4-byte little-endian);<br>nbits = ‘181287ba’, stored as ‘ba871218’;<br>nonce = 3548193207, encoded as ‘b7217dd3’ (4-byte little-endian).</p>
+<p>以 python 示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line">ver=<span class="string">'03000000'</span></span><br><span class="line"></span><br><span class="line">prev_block=<span class="string">'0000000000000000051f5de334085b92ce27c03888c726c9b2bb78069e55aeb6'</span>.decode(<span class="string">'hex'</span>)[::<span class="number">-1</span>].encode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="keyword">print</span> prev_block</span><br><span class="line"><span class="string">'b6ae559e0678bbb2c926c78838c027ce925b0834e35d1f050000000000000000'</span></span><br><span class="line"></span><br><span class="line">mrkl_root=<span class="string">'f4db18d3ecab87eeb23a56490d5b0b514848d510d409b43f6bbf2b82f55da8db'</span>.decode(<span class="string">'hex'</span>)[::<span class="number">-1</span>].encode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="keyword">print</span> mrkl_root</span><br><span class="line"><span class="string">'dba85df5822bbf6b3fb409d410d54848510b5b0d49563ab2ee87abecd318dbf4'</span></span><br><span class="line"></span><br><span class="line">ntime = hex(<span class="number">1442663985</span>)[<span class="number">2</span>:].decode(<span class="string">'hex'</span>)[::<span class="number">-1</span>].encode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="keyword">print</span> ntime</span><br><span class="line"><span class="number">314</span>efd55</span><br><span class="line"></span><br><span class="line">nbits = hex(<span class="number">403867578</span>)[<span class="number">2</span>:].decode(<span class="string">'hex'</span>)[::<span class="number">-1</span>].encode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="keyword">print</span> nbits</span><br><span class="line"><span class="string">'ba871218'</span></span><br><span class="line"></span><br><span class="line">nonce = hex(<span class="number">3548193207</span>)[<span class="number">2</span>:].decode(<span class="string">'hex'</span>)[::<span class="number">-1</span>].encode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="keyword">print</span> nonce</span><br><span class="line"><span class="string">'b7217dd3'</span></span><br><span class="line">header_hex = ver+prev_block+mrkl_root+ntime+nbits+nonce</span><br><span class="line"><span class="string">'03000000b6ae559e0678bbb2c926c78838c027ce925b0834e35d1f050000000000000000dba85df5822bbf6b3fb409d410d54848510b5b0d49563ab2ee87abecd318dbf4314efd55ba871218b7217dd3'</span></span><br><span class="line"></span><br><span class="line">header_hex = <span class="string">'03000000b6ae559e0678bbb2c926c78838c027ce925b0834e35d1f050000000000000000dba85df5822bbf6b3fb409d410d54848510b5b0d49563ab2ee87abecd318dbf4314efd55ba871218b7217dd3'</span></span><br><span class="line">header_bin = header_hex.decode(<span class="string">'hex'</span>)</span><br><span class="line">hash = hashlib.sha256(hashlib.sha256(header_bin).digest()).digest()</span><br><span class="line"><span class="keyword">print</span> hash[::<span class="number">-1</span>].encode(<span class="string">'hex'</span>)</span><br><span class="line"><span class="string">'00000000000000000be983a81043933c38008010b849fd6a35d5dd2d57f929bd'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="難度-Bits-Target-Difficulty"><a href="#難度-Bits-Target-Difficulty" class="headerlink" title="難度 (Bits, Target, Difficulty)"></a>難度 (Bits, Target, Difficulty)</h3><p>How often does the network difficulty change?<br><code>Every 2016 blocks.</code></p>
+<p>What is the formula for difficulty?<br><code>difficulty = difficulty_1_target / current_target</code></p>
+<p>(target is a 256 bit number)</p>
+<p>for nbits = 0x1b0404cb<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x0404cb * 2**(8*(0x1b - 3)) = 0x00000000000404CB000000000000000000000000000000000000000000000000</span><br></pre></td></tr></table></figure></p>
+<p>The highest possible target (difficulty 1) is defined as 0x1d00ffff<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x00ffff * 2**(8*(0x1d - 3)) = 0x00000000FFFF0000000000000000000000000000000000000000000000000000</span><br></pre></td></tr></table></figure></p>
+<p>It should be noted that pooled mining often uses non-truncated targets, which puts “pool difficulty 1” at<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span><br></pre></td></tr></table></figure></p>
+<p>So the difficulty at 0x1b0404cb is therefore:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0x00000000FFFF0000000000000000000000000000000000000000000000000000 /</span><br><span class="line">0x00000000000404CB000000000000000000000000000000000000000000000000 </span><br><span class="line">= 16307.420938523983 (Bitcoin clients, bdiff)</span><br></pre></td></tr></table></figure></p>
+<p>And:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF /</span><br><span class="line">0x00000000000404CB000000000000000000000000000000000000000000000000 </span><br><span class="line">= 16307.669773817162 (pool difficulty, pdiff)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="隔離驗證"><a href="#隔離驗證" class="headerlink" title="隔離驗證"></a>隔離驗證</h2><h3 id="To-create-a-P2SH-P2WPKH-address"><a href="#To-create-a-P2SH-P2WPKH-address" class="headerlink" title="To create a P2SH-P2WPKH address:"></a>To create a P2SH-P2WPKH address:</h3><ol>
+<li>Calculate the RIPEMD160 of the SHA256 of a public key (<code>keyhash</code>). Despite the <code>keyhash</code> formula is same as P2PKH, reuse of <code>keyhash</code> should be avoided for better privacy and prevention of accidental use of uncompressed key</li>
+<li>The P2SH <code>redeemScript</code> is always 22 bytes. It starts with a <code>OP_0</code>, followed by a canonical push of the <code>keyhash</code> (i.e. <code>0x0014{20-byte keyhash}</code>)</li>
+<li>Same as any other P2SH, the <code>scriptPubKey</code> is <code>OP_HASH160 hash160(redeemScript) OP_EQUAL</code>, and the address is the corresponding P2SH address with prefix 3.</li>
+</ol>
+<h3 id="Transaction-Serialization"><a href="#Transaction-Serialization" class="headerlink" title="Transaction Serialization"></a>Transaction Serialization</h3><ul>
+<li>A segwit-compatible wallet MUST support the original transaction format, as <code>nVersion|txins|txouts|nLockTime</code>.</li>
+<li>A segwit-compatible wallet MUST also support the new serialization format, as <code>nVersion|marker|flag|txins|txouts|witness|nLockTime</code></li>
+</ul>
+<h3 id="P2WSH-nested-in-BIP16-P2SH"><a href="#P2WSH-nested-in-BIP16-P2SH" class="headerlink" title="P2WSH nested in BIP16 P2SH"></a>P2WSH nested in BIP16 P2SH</h3><p>題：<br><a href="https://blockchain.info/tx-index/302164887/6" target="_blank" rel="noopener">https://blockchain.info/tx-index/302164887/6</a><br>解：<a href="https://blockchain.info/tx/be27a1e94cdf529792a72cc36f716f813a86ad82501f4c30da0728cf00038b8f" target="_blank" rel="noopener">https://blockchain.info/tx/be27a1e94cdf529792a72cc36f716f813a86ad82501f4c30da0728cf00038b8f</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hash160(&apos;002092c2380972ae5a244e814d18571502c64f5eef5ba99f1084cc5cd9191b754351&apos;.decode(&apos;hex&apos;))</span><br><span class="line">&apos;192aef744b6a8e1148481e08e4e4d53b41253a8b&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hashlib.sha256(binascii.unhexlify(&apos;5221020a4e014780b7d283e90cb76c5871a421e92fb1be026d4ded8d3a0a8153f60aef2103c87482d074068571e91b764cecfa076cff1535eadf1aca9209287700b234ba6252ae&apos;)).digest().encode(&apos;hex&apos;)</span><br><span class="line">&apos;92c2380972ae5a244e814d18571502c64f5eef5ba99f1084cc5cd9191b754351&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="P2WPKH-nested-in-BIP16-P2SH"><a href="#P2WPKH-nested-in-BIP16-P2SH" class="headerlink" title="P2WPKH nested in BIP16 P2SH"></a>P2WPKH nested in BIP16 P2SH</h3><p>題：<br><a href="https://blockchain.info/tx-index/308673052/1" target="_blank" rel="noopener">https://blockchain.info/tx-index/308673052/1</a><br>解：<br><a href="https://blockchain.info/tx-index/308678074" target="_blank" rel="noopener">https://blockchain.info/tx-index/308678074</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hash160(&apos;0014be1e6466eb39799e885842ed85217594cd3bee18&apos;.decode(&apos;hex&apos;))</span><br><span class="line">&apos;d9e0414c842ebbc50748bb0becdd5f20e0a06f38&apos;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hash160(&apos;02af03e4cd20a4dca33d4e3a9480c0469b91405404690075684b5986878d106aca&apos;.decode(&apos;hex&apos;))</span><br><span class="line">&apos;be1e6466eb39799e885842ed85217594cd3bee18&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scriptaddr(&apos;0014be1e6466eb39799e885842ed85217594cd3bee18&apos;)</span><br><span class="line">&apos;3MZ3Cgn8Fkvg64j5Yy4feYWy3LSoiHaGvB&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b58check_to_hex(&apos;3MZ3Cgn8Fkvg64j5Yy4feYWy3LSoiHaGvB&apos;)</span><br><span class="line">&apos;d9e0414c842ebbc50748bb0becdd5f20e0a06f38&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="P2WSH"><a href="#P2WSH" class="headerlink" title="P2WSH"></a>P2WSH</h3><p>題：<br><a href="https://blockchain.info/tx-index/308702492/1" target="_blank" rel="noopener">https://blockchain.info/tx-index/308702492/1</a><br>解：<br><a href="https://blockchain.info/tx-index/308706903" target="_blank" rel="noopener">https://blockchain.info/tx-index/308706903</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addr: bc1qwqdg6squsna38e46795at95yu9atm8azzmyvckulcc7kytlcckxswvvzej</span><br></pre></td></tr></table></figure>
+<p>地址請參考<a href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki" target="_blank" rel="noopener">BIP173</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hashlib.sha256(binascii.unhexlify(&apos;52210375e00eb72e29da82b89367947f29ef34afb75e8654f6ea368e0acdfd92976b7c2103a1b26313f430c4b15bb1fdce663207659d8cac749a0e53d70eff01874496feff2103c96d495bfdd5ba4145e3e046fee45e84a8a48ad05bd8dbb395c011a32cf9f88053ae&apos;)).digest().encode(&apos;hex&apos;)</span><br><span class="line">&apos;701a8d401c84fb13e6baf169d59684e17abd9fa216c8cc5b9fc63d622ff8c58d&apos;</span><br></pre></td></tr></table></figure></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最後更新： 2018年02月06日 11:22</p>
+        <p>原始連結： <a class="post-url" href="/2018/02/05/Bitcoin-script/" title="Bitcoin script">https://apjiyi.github.io/2018/02/05/Bitcoin-script/</a></p>
+        <footer>
+            <a href="https://apjiyi.github.io">
+                <img src="/images/logo.png" alt="Jiyi Wu">
+                Jiyi Wu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://apjiyi.github.io/2018/02/05/Bitcoin-script/&title=《Bitcoin script》 — Jiyi's Blog&pic=images/bitcoin-2643160_1280.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://apjiyi.github.io/2018/02/05/Bitcoin-script/&title=《Bitcoin script》 — Jiyi's Blog&source=專注在加密貨幣原理與技術" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://apjiyi.github.io/2018/02/05/Bitcoin-script/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Bitcoin script》 — Jiyi's Blog&url=https://apjiyi.github.io/2018/02/05/Bitcoin-script/&via=https://apjiyi.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://apjiyi.github.io/2018/02/05/Bitcoin-script/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://apjiyi.github.io/2018/02/05/Bitcoin-script/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/bitcoin/" class="color3">bitcoin</a>
+      
+    <a href="/tags/cryptocurrency/" class="color5">cryptocurrency</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#比特幣學習地圖"><span class="post-toc-text">比特幣學習地圖</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#比特幣學習目標"><span class="post-toc-text">比特幣學習目標</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Bitcoin-Script"><span class="post-toc-text">Bitcoin Script</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#工具"><span class="post-toc-text">工具</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#交易型態"><span class="post-toc-text">交易型態</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、P2PK-Pay-to-Public-Key-or-pubkey"><span class="post-toc-text">一、P2PK (Pay to Public Key) or pubkey</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#"><span class="post-toc-text"></span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、P2PKH-Pay-to-Public-Key-Hash-or-pubkeyhash"><span class="post-toc-text">二、P2PKH (Pay to Public Key Hash) or pubkeyhash</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、-P2SH-Pay-to-Script-Hash-or-scripthash"><span class="post-toc-text">三、 P2SH (Pay to Script Hash) or scripthash</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四、MultiSig"><span class="post-toc-text">四、MultiSig</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五、Null-Data"><span class="post-toc-text">五、Null-Data</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#六、Non-Standard"><span class="post-toc-text">六、Non-Standard</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#驗證區塊"><span class="post-toc-text">驗證區塊</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#難度-Bits-Target-Difficulty"><span class="post-toc-text">難度 (Bits, Target, Difficulty)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#隔離驗證"><span class="post-toc-text">隔離驗證</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#To-create-a-P2SH-P2WPKH-address"><span class="post-toc-text">To create a P2SH-P2WPKH address:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Transaction-Serialization"><span class="post-toc-text">Transaction Serialization</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#P2WSH-nested-in-BIP16-P2SH"><span class="post-toc-text">P2WSH nested in BIP16 P2SH</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#P2WPKH-nested-in-BIP16-P2SH"><span class="post-toc-text">P2WPKH nested in BIP16 P2SH</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#P2WSH"><span class="post-toc-text">P2WSH</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/05/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Hello World</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Jiyi Wu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://apjiyi.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/bitcoin/">bitcoin</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/bitcoin/" style="font-size: 10px;">bitcoin</a> <a href="/tags/cryptocurrency/" style="font-size: 10px;">cryptocurrency</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/bitcoin/" style="font-size: 10px;">bitcoin</a> <a href="/tags/cryptocurrency/" style="font-size: 10px;">cryptocurrency</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
